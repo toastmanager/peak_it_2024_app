@@ -1,18 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sign_in_model.dart';
+part of 'verify_code_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SignInModel _$SignInModelFromJson(Map<String, dynamic> json) => SignInModel(
+VerifyCodeModel _$VerifyCodeModelFromJson(Map<String, dynamic> json) =>
+    VerifyCodeModel(
       phone: json['phone'] as String,
-      password: json['password'] as String,
+      code: json['code'] as String,
     );
 
-Map<String, dynamic> _$SignInModelToJson(SignInModel instance) =>
+Map<String, dynamic> _$VerifyCodeModelToJson(VerifyCodeModel instance) =>
     <String, dynamic>{
       'phone': instance.phone,
-      'password': instance.password,
+      'code': instance.code,
     };

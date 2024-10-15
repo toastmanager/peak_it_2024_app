@@ -1,0 +1,28 @@
+part of 'auth_bloc.dart';
+
+sealed class AuthEvent extends Equatable {
+  const AuthEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class AuthRequestCode extends AuthEvent {
+  final RequestCodeEntity entity;
+
+  const AuthRequestCode({required this.entity});
+}
+
+class AuthVerifyCode extends AuthEvent {
+  final VerifyCodeEntity entity;
+
+  const AuthVerifyCode({required this.entity});
+}
+
+class AuthRefreshToken extends AuthEvent {
+  final TokenRefreshEntity entity;
+
+  const AuthRefreshToken({required this.entity});
+}
+
+class AuthGetToken extends AuthEvent {}

@@ -13,9 +13,7 @@ class _AuthRestClient implements AuthRestClient {
     this._dio, {
     this.baseUrl,
     this.errorLogger,
-  }) {
-    baseUrl ??= 'localhost:8000/';
-  }
+  });
 
   final Dio _dio;
 
@@ -24,7 +22,7 @@ class _AuthRestClient implements AuthRestClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<void> register(SignUpModel model) async {
+  Future<void> requestCode(RequestCodeModel model) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -37,7 +35,7 @@ class _AuthRestClient implements AuthRestClient {
     )
         .compose(
           _dio.options,
-          '/auth/jwt/register',
+          '/request_code',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -50,20 +48,20 @@ class _AuthRestClient implements AuthRestClient {
   }
 
   @override
-  Future<void> login(SignInModel model) async {
+  Future<TokenModel> verifyCode(VerifyCodeModel model) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(model.toJson());
-    final _options = _setStreamType<void>(Options(
+    final _options = _setStreamType<TokenModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/auth/jwt/login',
+          '/verify_code',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -72,23 +70,32 @@ class _AuthRestClient implements AuthRestClient {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TokenModel _value;
+    try {
+      _value = TokenModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
-  Future<void> logout() async {
+  Future<TokenModel> refreshToken(TokenRefreshModel model) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<void>(Options(
+    final _data = <String, dynamic>{};
+    _data.addAll(model.toJson());
+    final _options = _setStreamType<TokenModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/auth/jwt/logout',
+          '/refresh',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -97,7 +104,15 @@ class _AuthRestClient implements AuthRestClient {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TokenModel _value;
+    try {
+      _value = TokenModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

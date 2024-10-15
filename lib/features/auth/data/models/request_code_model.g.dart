@@ -1,18 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sing_up_model.dart';
+part of 'request_code_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SignUpModel _$SignUpModelFromJson(Map<String, dynamic> json) => SignUpModel(
+RequestCodeModel _$RequestCodeModelFromJson(Map<String, dynamic> json) =>
+    RequestCodeModel(
       phone: json['phone'] as String,
-      password: json['password'] as String,
     );
 
-Map<String, dynamic> _$SignUpModelToJson(SignUpModel instance) =>
+Map<String, dynamic> _$RequestCodeModelToJson(RequestCodeModel instance) =>
     <String, dynamic>{
       'phone': instance.phone,
-      'password': instance.password,
     };

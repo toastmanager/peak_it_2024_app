@@ -1,6 +1,6 @@
 name: peak_it_2024_app
 description: "Application made at PeakIT 2024 Hackathon"
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
@@ -20,6 +20,7 @@ dependencies:
   json_annotation: ^4.9.0
   logger: ^2.4.0
   retrofit: ^4.4.1
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
@@ -33,5 +34,7 @@ dev_dependencies:
   retrofit_generator: ^9.1.2
 
 flutter:
-
   uses-material-design: true
+
+  assets:
+    - .env
