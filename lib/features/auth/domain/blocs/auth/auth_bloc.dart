@@ -29,6 +29,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       : super(AuthInitial()) {
     on<AuthRequestCode>(_onRequestCode);
     on<AuthVerifyCode>(_onVerifyCode);
+    on<AuthRefreshToken>(_onRefreshToken);
+    on<AuthGetToken>(_onGetToken);
   }
 
   Future<void> _onRequestCode(
@@ -48,6 +50,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       final token = await verifyCode.execute(event.entity);
+      if (token != null) {
+        emit(AuthAuthorized(token: token));
+      } else {
+        emit(AuthUnauthorized());
+      }
+    } catch (e) {
+      emit(AuthUnauthorized());
+      rethrow;
+    }
+  }
+
+  Future<void> _onRefreshToken(
+      AuthRefreshToken event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      final token = await refreshToken.execute(event.entity);
+      if (token != null) {
+        emit(AuthAuthorized(token: token));
+      } else {
+        emit(AuthUnauthorized());
+      }
+    } catch (e) {
+      emit(AuthUnauthorized());
+      rethrow;
+    }
+  }
+
+  Future<void> _onGetToken(AuthGetToken event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      final token = await getToken.execute();
       if (token != null) {
         emit(AuthAuthorized(token: token));
       } else {
