@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 import 'package:peak_it_2024_app/features/auth/domain/entities/token_entity.dart';
 import 'package:peak_it_2024_app/features/auth/domain/entities/request_code_entity.dart';
 import 'package:peak_it_2024_app/features/auth/domain/entities/token_refresh_entity.dart';
@@ -12,13 +13,14 @@ import 'package:peak_it_2024_app/features/auth/domain/usecases/verify_code.dart'
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+@injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RequestCode requestCode;
   final VerifyCode verifyCode;
   final RefreshToken refreshToken;
   final GetToken getToken;
 
-  TokenEntity token =
+  TokenEntity blocToken =
       const TokenEntity(accessToken: "", refreshToken: "", tokenType: "bearer");
 
   AuthBloc(
@@ -52,6 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final token = await verifyCode.execute(event.entity);
       if (token != null) {
         emit(AuthAuthorized(token: token));
+        blocToken = token;
       } else {
         emit(AuthUnauthorized());
       }
@@ -65,9 +68,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthRefreshToken event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      final token = await refreshToken.execute(event.entity);
+      final token = await refreshToken
+          .execute(TokenRefreshEntity(refreshToken: blocToken.refreshToken));
       if (token != null) {
         emit(AuthAuthorized(token: token));
+        blocToken = token;
       } else {
         emit(AuthUnauthorized());
       }
@@ -83,6 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final token = await getToken.execute();
       if (token != null) {
         emit(AuthAuthorized(token: token));
+        blocToken = token;
       } else {
         emit(AuthUnauthorized());
       }

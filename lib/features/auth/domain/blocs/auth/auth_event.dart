@@ -19,10 +19,6 @@ class AuthVerifyCode extends AuthEvent {
   const AuthVerifyCode({required this.entity});
 }
 
-class AuthRefreshToken extends AuthEvent {
-  final TokenRefreshEntity entity;
-
-  const AuthRefreshToken({required this.entity});
-}
+class AuthRefreshToken extends AuthEvent {}
 
 class AuthGetToken extends AuthEvent {}

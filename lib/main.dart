@@ -1,8 +1,19 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:peak_it_2024_app/features/auth/domain/blocs/auth/auth_bloc.dart';
+import 'package:peak_it_2024_app/features/auth/domain/entities/request_code_entity.dart';
+import 'package:peak_it_2024_app/features/auth/domain/entities/verify_code_entity.dart';
+import 'package:peak_it_2024_app/injection.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
+
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  configureDependencies();
 
   runApp(const MyApp());
 }
@@ -34,7 +45,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final phoneController = TextEditingController();
-  final passwordController = TextEditingController();
+  final codeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +54,38 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: phoneController,
-            ),
-            TextField(
-              controller: passwordController,
-            ),
-            TextButton(onPressed: () {}, child: const Text("Login")),
-            TextButton(onPressed: () {}, child: const Text("Logout")),
-            TextButton(onPressed: () {}, child: const Text("Register")),
-          ],
+      body: BlocProvider(
+        create: (context) => sl<AuthBloc>()..add(AuthGetToken()),
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            final bloc = context.read<AuthBloc>();
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextField(
+                    controller: phoneController,
+                  ),
+                  TextField(
+                    controller: codeController,
+                  ),
+                  TextButton(
+                      onPressed: () => bloc.add(AuthRequestCode(
+                          entity:
+                              RequestCodeEntity(phone: phoneController.text))),
+                      child: const Text("Request Code")),
+                  TextButton(
+                      onPressed: () => bloc.add(AuthVerifyCode(
+                          entity: VerifyCodeEntity(
+                              phone: phoneController.text,
+                              code: codeController.text))),
+                      child: const Text("Verify Code")),
+                  TextButton(onPressed: () => bloc.add(AuthRefreshToken()), child: const Text("Refresh")),
+                  TextButton(onPressed: () => bloc.add(AuthGetToken()), child: const Text("Get Token")),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

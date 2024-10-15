@@ -22,6 +22,7 @@ import 'features/auth/data/datasources/remote/auth_data_source_remote.dart'
 import 'features/auth/data/datasources/remote/auth_rest_client.dart' as _i475;
 import 'features/auth/data/modules/auth_rest_client_module.dart' as _i533;
 import 'features/auth/data/repositories/auth_repository_impl.dart' as _i111;
+import 'features/auth/domain/blocs/auth/auth_bloc.dart' as _i660;
 import 'features/auth/domain/repositories/auth_repository.dart' as _i1015;
 import 'features/auth/domain/usecases/get_token.dart' as _i689;
 import 'features/auth/domain/usecases/refresh_token.dart' as _i694;
@@ -69,6 +70,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i476.RequestCode(repository: gh<_i1015.AuthRepository>()));
     gh.singleton<_i701.VerifyCode>(
         () => _i701.VerifyCode(repository: gh<_i1015.AuthRepository>()));
+    gh.factory<_i660.AuthBloc>(() => _i660.AuthBloc(
+          requestCode: gh<_i476.RequestCode>(),
+          verifyCode: gh<_i701.VerifyCode>(),
+          refreshToken: gh<_i694.RefreshToken>(),
+          getToken: gh<_i689.GetToken>(),
+        ));
     return this;
   }
 }
