@@ -24,6 +24,32 @@ class _AuthRestClient implements AuthRestClient {
   final ParseErrorLogger? errorLogger;
 
   @override
+  Future<void> register(SignUpModel model) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(model.toJson());
+    final _options = _setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/auth/jwt/register',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
   Future<void> login(SignInModel model) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -50,12 +76,11 @@ class _AuthRestClient implements AuthRestClient {
   }
 
   @override
-  Future<void> logout(SignInModel model) async {
+  Future<void> logout() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(model.toJson());
+    const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<void>(Options(
       method: 'POST',
       headers: _headers,
@@ -64,32 +89,6 @@ class _AuthRestClient implements AuthRestClient {
         .compose(
           _dio.options,
           '/auth/jwt/logout',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        )));
-    await _dio.fetch<void>(_options);
-  }
-
-  @override
-  Future<void> register(SignInModel model) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(model.toJson());
-    final _options = _setStreamType<void>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/auth/jwt/register',
           queryParameters: queryParameters,
           data: _data,
         )
