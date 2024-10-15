@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:peak_it_2024_app/features/auth/data/models/sing_in_model.dart';
+import 'package:peak_it_2024_app/features/auth/data/models/sign_in_model.dart';
 import 'package:peak_it_2024_app/features/auth/data/models/sing_up_model.dart';
 
 abstract class AuthDataSourceRemote {

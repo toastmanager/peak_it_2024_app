@@ -6,25 +6,23 @@ part 'sing_up_model.g.dart';
 @JsonSerializable()
 class SignUpModel extends Equatable {
   final String phone;
-  final String email;
   final String password;
 
   const SignUpModel(
-      {required this.phone, required this.email, required this.password});
+      {required this.phone, required this.password});
 
   SignUpModel copyWith({String? phone, String? email, String? password}) {
     return SignUpModel(
         phone: phone ?? this.phone,
-        email: email ?? this.email,
         password: password ?? this.password);
   }
 
   @override
-  List<Object?> get props => [phone, email, password];
+  List<Object?> get props => [phone, password];
 
   @override
   String toString() {
-    return 'SignUpModel{phone=$phone, email=$email, password=$password}';
+    return 'SignUpModel{phone=$phone, password=$password}';
   }
 
   Map<String, dynamic> toJson() => _$SignUpModelToJson(this);
@@ -33,11 +31,11 @@ class SignUpModel extends Equatable {
       _$SignUpModelFromJson(json);
 
   SignUpEntity toEntity() {
-    return SignUpEntity(phone: phone, email: email, password: password);
+    return SignUpEntity(phone: phone, password: password);
   }
 
   factory SignUpModel.fromEntity(SignUpEntity entity) {
     return SignUpModel(
-        phone: entity.phone, email: entity.email, password: entity.password);
+        phone: entity.phone, password: entity.password);
   }
 }
