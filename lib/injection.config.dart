@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import 'core/modules/logger_module.dart' as _i1019;
 import 'core/modules/network_module.dart' as _i401;
 import 'core/modules/shared_preferences_module.dart' as _i1007;
+import 'core/routes/router.dart' as _i66;
 import 'features/auth/data/datasources/remote/auth_data_source_remote.dart'
     as _i526;
 import 'features/auth/data/datasources/remote/auth_rest_client.dart' as _i475;
@@ -40,16 +41,17 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final injectionModule = _$InjectionModule();
-    final networkModule = _$NetworkModule();
     final loggerModule = _$LoggerModule();
+    final networkModule = _$NetworkModule();
+    final injectionModule = _$InjectionModule();
     final authRestClientModule = _$AuthRestClientModule();
+    gh.singleton<_i66.AppRouter>(() => _i66.AppRouter());
+    gh.lazySingleton<_i974.Logger>(() => loggerModule.logger);
+    gh.lazySingleton<_i361.Dio>(() => networkModule.dio);
     await gh.lazySingletonAsync<_i460.SharedPreferences>(
       () => injectionModule.prefs,
       preResolve: true,
     );
-    gh.lazySingleton<_i361.Dio>(() => networkModule.dio);
-    gh.lazySingleton<_i974.Logger>(() => loggerModule.logger);
     gh.lazySingleton<_i475.AuthRestClient>(
         () => authRestClientModule.authRestClient);
     gh.singleton<_i526.AuthDataSourceRemote>(
@@ -64,10 +66,10 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.singleton<_i689.GetToken>(
         () => _i689.GetToken(repository: gh<_i1015.AuthRepository>()));
-    gh.singleton<_i476.RequestCode>(
-        () => _i476.RequestCode(repository: gh<_i1015.AuthRepository>()));
     gh.singleton<_i694.RefreshToken>(
         () => _i694.RefreshToken(repository: gh<_i1015.AuthRepository>()));
+    gh.singleton<_i476.RequestCode>(
+        () => _i476.RequestCode(repository: gh<_i1015.AuthRepository>()));
     gh.singleton<_i701.VerifyCode>(
         () => _i701.VerifyCode(repository: gh<_i1015.AuthRepository>()));
     gh.factory<_i660.AuthBloc>(() => _i660.AuthBloc(
@@ -80,10 +82,10 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$InjectionModule extends _i1007.InjectionModule {}
+class _$LoggerModule extends _i1019.LoggerModule {}
 
 class _$NetworkModule extends _i401.NetworkModule {}
 
-class _$LoggerModule extends _i1019.LoggerModule {}
+class _$InjectionModule extends _i1007.InjectionModule {}
 
 class _$AuthRestClientModule extends _i533.AuthRestClientModule {}

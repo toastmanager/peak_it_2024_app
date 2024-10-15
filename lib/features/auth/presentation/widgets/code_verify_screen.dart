@@ -1,0 +1,12 @@
+import 'package:auto_route/annotations.dart';
+import 'package:flutter/material.dart';
+
+@RoutePage()
+class CodeVerifyScreen extends StatelessWidget {
+  const CodeVerifyScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Placeholder();
+  }
+}
