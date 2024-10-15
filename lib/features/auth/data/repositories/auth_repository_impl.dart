@@ -34,9 +34,9 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<TokenEntity?> getToken() {
-    // TODO: implement getToken
-    throw UnimplementedError();
+  Future<TokenEntity?> getToken() async {
+    final tokenModel = await authDataSourceRemote.getToken();
+    return tokenModel?.toEntity();
   }
 
   @override

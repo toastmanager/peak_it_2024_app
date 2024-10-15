@@ -59,12 +59,11 @@ class AuthDataSourceRemoteImpl implements AuthDataSourceRemote {
   @override
   Future<TokenModel?> getToken() async {
     try {
-      final tokenMap =
-          json.decode(prefs.getString(AuthConsts.prefsTokenKey) ?? '');
-      if (tokenMap == "") {
+      final tokenMap = prefs.getString(AuthConsts.prefsTokenKey);
+      if (tokenMap == null) {
         return null;
       }
-      return TokenModel.fromJson(tokenMap);
+      return TokenModel.fromJson(json.decode(tokenMap));
     } catch (e) {
       logger.e(e);
       rethrow;
