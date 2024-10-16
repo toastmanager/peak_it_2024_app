@@ -3,23 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:peak_it_2024_app/core/components/expanded_horizontal.dart';
 import 'package:peak_it_2024_app/core/utils/icon_paths.dart';
+import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
 import 'package:peak_it_2024_app/features/food/domain/utils/food_utils.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
-class FoodCard extends StatelessWidget {
-  const FoodCard(
-      {super.key,
-      required this.imageUrl,
-      required this.name,
-      required this.price,
-      required this.weight,
-      this.sharpness = 1});
+class FoodCard extends StatefulWidget {
+  const FoodCard({super.key, required this.entity});
 
-  final String imageUrl;
-  final String name;
-  final int price;
-  final int weight;
-  final int sharpness;
+  final FoodEntity entity;
+
+  @override
+  State<FoodCard> createState() => _FoodCardState();
+}
+
+class _FoodCardState extends State<FoodCard> {
+  late final FoodEntity entity;
+  late final String imageUrl;
+  late final String name;
+  late final int price;
+  late final int weight;
+  late final int sharpness;
+
+  @override
+  void initState() {
+    entity = widget.entity;
+    imageUrl = entity.imageUrl;
+    name = entity.name;
+    price = entity.price;
+    weight = entity.weight;
+    sharpness = entity.sharpness;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,26 +102,40 @@ class FoodCard extends StatelessWidget {
 @widgetbook.UseCase(name: 'Very Hot', type: FoodCard)
 FoodCard veryHotFoodCard(BuildContext context) {
   return const FoodCard(
-    imageUrl: '',
-    name: 'Утка по пекински',
-    price: 589,
-    weight: 430,
-    sharpness: 3,
+    entity: FoodEntity(
+      imageUrl: '',
+      name: 'Утка по пекински',
+      price: 589,
+      weight: 430,
+      sharpness: 3,
+      id: 0,
+    ),
   );
 }
 
 @widgetbook.UseCase(name: 'Middle Hot', type: FoodCard)
 FoodCard middleHotFoodCard(BuildContext context) {
   return const FoodCard(
-    imageUrl: '',
-    name: 'Гунбао на сковороде',
-    price: 479,
-    weight: 350,
-    sharpness: 2,
+    entity: FoodEntity(
+      id: 0,
+      imageUrl: '',
+      name: 'Гунбао на сковороде',
+      price: 479,
+      weight: 350,
+      sharpness: 2,
+    ),
   );
 }
 
 @widgetbook.UseCase(name: 'Light Hot', type: FoodCard)
 FoodCard lightHotFoodCard(BuildContext context) {
-  return const FoodCard(imageUrl: '', name: 'Якисоба', price: 419, weight: 450);
+  return const FoodCard(
+    entity: FoodEntity(
+        id: 0,
+        imageUrl: '',
+        name: 'Якисоба',
+        price: 419,
+        weight: 450,
+        sharpness: 1),
+  );
 }

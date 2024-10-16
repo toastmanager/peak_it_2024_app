@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:peak_it_2024_app/core/routes/router.dart';
 import 'package:peak_it_2024_app/features/auth/domain/blocs/auth/auth_bloc.dart';
+import 'package:peak_it_2024_app/features/food/domain/blocs/food/food_bloc.dart';
 import 'package:peak_it_2024_app/injection.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 
@@ -34,7 +35,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(
           create: (context) => sl<AuthBloc>()..add(AuthGetToken()),
-        )
+        ),
+        BlocProvider(
+          create: (context) => sl<FoodBloc>()..add(FoodGetCategories()),
+        ),
       ],
       child: MaterialApp.router(
         title: 'Ужин с пандой',

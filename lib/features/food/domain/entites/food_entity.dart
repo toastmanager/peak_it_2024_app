@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class FoodEntity extends Equatable {
   final int id;
+  final String imageUrl;
   final String name;
   final int price;
   final int weight;
@@ -10,17 +11,20 @@ class FoodEntity extends Equatable {
 
   const FoodEntity(
       {required this.id,
+      required this.imageUrl,
       required this.name,
       required this.price,
       required this.weight,
       required this.sharpness,
-      required this.number});
+      this.number = 0});
 
   @override
-  List<Object?> get props => [id, name, price, weight, sharpness, number];
+  List<Object?> get props =>
+      [id, imageUrl, name, price, weight, sharpness, number];
 
   FoodEntity copyWith(
       {int? id,
+      String? imageUrl,
       String? name,
       int? price,
       int? weight,
@@ -28,6 +32,7 @@ class FoodEntity extends Equatable {
       int? number}) {
     return FoodEntity(
         id: id ?? this.id,
+        imageUrl: imageUrl ?? this.imageUrl,
         name: name ?? this.name,
         price: price ?? this.price,
         weight: weight ?? this.weight,
@@ -37,6 +42,6 @@ class FoodEntity extends Equatable {
 
   @override
   String toString() {
-    return 'FoodEntity{id=$id, name=$name, price=$price, weight=$weight, sharpness=$sharpness, number=$number}';
+    return 'FoodEntity{id=$id, imageUrl=$imageUrl, name=$name, price=$price, weight=$weight, sharpness=$sharpness, number=$number}';
   }
 }

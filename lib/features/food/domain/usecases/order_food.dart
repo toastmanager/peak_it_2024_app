@@ -1,6 +1,8 @@
+import 'package:injectable/injectable.dart';
 import 'package:peak_it_2024_app/features/food/domain/entites/food_order_entity.dart';
 import 'package:peak_it_2024_app/features/food/domain/repositories/food_repository.dart';
 
+@singleton
 class OrderFood {
   final FoodRepository repository;
 

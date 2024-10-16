@@ -58,8 +58,8 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
     if (cartIndex == -1) {
       cart.add(food);
     } else {
-      final cartEntity = cart[cartIndex];
-      cart[cartIndex] = cartEntity.copyWith(number: cartEntity.number + 1);
+      cart[cartIndex] = food.copyWith(number: food.number + 1);
+      categories[categoryIndex].food[foodIndex] = cart[cartIndex];
     }
   }
 
@@ -71,11 +71,11 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
       logger.e(errorMessage);
       throw Exception(errorMessage);
     } else {
-      final cartEntity = cart[cartIndex];
-      if (cartEntity.number == 1) {
+      if (food.number == 1) {
         cart.removeAt(cartIndex);
       } else {
-        cart[cartIndex] = cartEntity.copyWith(number: cartEntity.number - 1);
+        cart[cartIndex] = food.copyWith(number: food.number - 1);
+        categories[categoryIndex].food[foodIndex] = cart[cartIndex];
       }
     }
   }

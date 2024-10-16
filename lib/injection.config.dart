@@ -30,6 +30,11 @@ import 'features/auth/domain/usecases/logout.dart' as _i80;
 import 'features/auth/domain/usecases/refresh_token.dart' as _i694;
 import 'features/auth/domain/usecases/request_code.dart' as _i476;
 import 'features/auth/domain/usecases/verify_code.dart' as _i701;
+import 'features/food/data/repositories/food_repository_impl.dart' as _i967;
+import 'features/food/domain/blocs/food/food_bloc.dart' as _i323;
+import 'features/food/domain/repositories/food_repository.dart' as _i509;
+import 'features/food/domain/usecases/get_categories.dart' as _i997;
+import 'features/food/domain/usecases/order_food.dart' as _i44;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -55,12 +60,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i974.Logger>(() => loggerModule.logger);
     gh.lazySingleton<_i475.AuthRestClient>(
         () => authRestClientModule.authRestClient);
+    gh.singleton<_i509.FoodRepository>(() => _i967.FoodRepositoryImpl());
     gh.singleton<_i526.AuthDataSourceRemote>(
         () => _i526.AuthDataSourceRemoteImpl(
               client: gh<_i475.AuthRestClient>(),
               logger: gh<_i974.Logger>(),
               prefs: gh<_i460.SharedPreferences>(),
             ));
+    gh.singleton<_i997.GetCategories>(
+        () => _i997.GetCategories(repository: gh<_i509.FoodRepository>()));
+    gh.singleton<_i44.OrderFood>(
+        () => _i44.OrderFood(repository: gh<_i509.FoodRepository>()));
+    gh.factory<_i323.FoodBloc>(() => _i323.FoodBloc(
+          getCategories: gh<_i997.GetCategories>(),
+          orderFood: gh<_i44.OrderFood>(),
+          logger: gh<_i974.Logger>(),
+        ));
     gh.singleton<_i1015.AuthRepository>(() => _i111.AuthRepositoryImpl(
           logger: gh<_i974.Logger>(),
           authDataSourceRemote: gh<_i526.AuthDataSourceRemote>(),
