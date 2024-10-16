@@ -8,32 +8,34 @@ class MainWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-        routes: const [
-            MenuRoute(),
-            CartRoute(),
-            ProfileRoute(),
-        ],
-        builder: (context, child) {
-          final tabsRouter = AutoTabsRouter.of(context);
-          return Scaffold(
-            body: child,
-            bottomNavigationBar: BottomNavigationBar(
-                currentIndex: tabsRouter.activeIndex,
-                showSelectedLabels: true,
-                showUnselectedLabels: true,
-                onTap: (value) {
-                  tabsRouter.setActiveIndex(value);
-                },
-                items: const [
-                    BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'Меню'),
-                    // BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'Акции'),
-                    BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'Корзина'),
-                    BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'Профиль'),
-                ],
-            ),
-          );
-        },
+    return SafeArea(
+      child: AutoTabsRouter(
+          routes: const [
+              MenuRoute(),
+              CartRoute(),
+              ProfileRoute(),
+          ],
+          builder: (context, child) {
+            final tabsRouter = AutoTabsRouter.of(context);
+            return Scaffold(
+              body: child,
+              bottomNavigationBar: BottomNavigationBar(
+                  currentIndex: tabsRouter.activeIndex,
+                  showSelectedLabels: true,
+                  showUnselectedLabels: true,
+                  onTap: (value) {
+                    tabsRouter.setActiveIndex(value);
+                  },
+                  items: const [
+                      BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'Меню'),
+                      // BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'Акции'),
+                      BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'Корзина'),
+                      BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'Профиль'),
+                  ],
+              ),
+            );
+          },
+      ),
     );
   }
 }
