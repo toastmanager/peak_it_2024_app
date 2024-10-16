@@ -31,35 +31,51 @@ class MenuPage extends StatelessWidget {
                   itemCount: 11),
             ),
             const SizedBox(height: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Самое популярное',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                SizedBox(
-                  height: 231,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => const FoodCard(
-                            imageUrl: '',
-                            name: 'Гунбао на сковороде',
-                            price: 479,
-                            weight: 430,
-                            sharpness: 1,
-                          ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: 12),
-                      itemCount: 11),
-                ),
-              ],
-            ),
+            const FoodRow(text: 'Самое полуярное', items: [],),
           ],
         ),
       ),
+    );
+  }
+}
+
+class FoodRow extends StatelessWidget {
+  const FoodRow({
+    super.key,
+    required this.text,
+    required this.items,
+  });
+
+  final String text;
+  final List<Widget> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Самое популярное',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 231,
+          child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => const FoodCard(
+                    imageUrl: '',
+                    name: 'Гунбао на сковороде',
+                    price: 479,
+                    weight: 430,
+                    sharpness: 1,
+                  ),
+              separatorBuilder: (context, index) =>
+                  const SizedBox(width: 12),
+              itemCount: 11),
+        ),
+      ],
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:peak_it_2024_app/features/auth/domain/blocs/auth/auth_bloc.dart'
 import 'package:peak_it_2024_app/features/auth/presentation/widgets/code_verify_screen.dart';
 import 'package:peak_it_2024_app/features/auth/presentation/widgets/phone_screen.dart';
 
-
 @RoutePage()
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -35,6 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
+            final bloc = context.read<AuthBloc>();
             if (state is AuthUnauthorized || state is AuthCodeRequested) {
               return DefaultTabController(
                   length: 2,
@@ -59,7 +59,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text('Invalid Code'),
               );
             }
-            return const Placeholder();
+            return Center(
+              child: FilledButton(
+                  onPressed: () {
+                    bloc.add(AuthLogout());
+                  },
+                  child: const Text('Выйти')),
+            );
           },
         ));
   }

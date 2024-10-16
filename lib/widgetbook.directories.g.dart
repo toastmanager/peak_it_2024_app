@@ -26,7 +26,7 @@ final directories = <_i1.WidgetbookNode>[
             name: 'presentation',
             children: [
               _i1.WidgetbookFolder(
-                name: 'components',
+                name: 'widgets',
                 children: [
                   _i1.WidgetbookComponent(
                     name: 'CategoryCard',
