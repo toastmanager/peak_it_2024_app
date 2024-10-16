@@ -7,7 +7,6 @@ class FoodEntity extends Equatable {
   final int price;
   final int weight;
   final int sharpness;
-  final int number;
 
   const FoodEntity(
       {required this.id,
@@ -15,12 +14,11 @@ class FoodEntity extends Equatable {
       required this.name,
       required this.price,
       required this.weight,
-      required this.sharpness,
-      this.number = 0});
+      required this.sharpness});
 
   @override
   List<Object?> get props =>
-      [id, imageUrl, name, price, weight, sharpness, number];
+      [id, imageUrl, name, price, weight, sharpness];
 
   FoodEntity copyWith(
       {int? id,
@@ -36,12 +34,11 @@ class FoodEntity extends Equatable {
         name: name ?? this.name,
         price: price ?? this.price,
         weight: weight ?? this.weight,
-        sharpness: sharpness ?? this.sharpness,
-        number: number ?? this.number);
+        sharpness: sharpness ?? this.sharpness);
   }
 
   @override
   String toString() {
-    return 'FoodEntity{id=$id, imageUrl=$imageUrl, name=$name, price=$price, weight=$weight, sharpness=$sharpness, number=$number}';
+    return 'FoodEntity{id=$id, imageUrl=$imageUrl, name=$name, price=$price, weight=$weight, sharpness=$sharpness}';
   }
 }

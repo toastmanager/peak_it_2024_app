@@ -7,6 +7,6 @@ final sl = GetIt.instance;
 @InjectableInit(
   initializerName: 'init', 
   preferRelativeImports: true,
-  asExtension: true,
+  // asExtension: true,
 )
 void configureDependencies() => sl.init();

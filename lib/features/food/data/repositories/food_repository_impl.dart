@@ -6,24 +6,26 @@ import 'package:peak_it_2024_app/features/food/domain/repositories/food_reposito
 
 @Singleton(as: FoodRepository)
 class FoodRepositoryImpl implements FoodRepository {
+  FoodRepositoryImpl();
+
   @override
   Future<List<FoodCategoryEntity>> getCategories() async {
     // TODO: implement getCategories
-    return List.filled(
-        3,
-        FoodCategoryEntity(
-            id: 0,
-            name: 'Колонна',
-            food: List.filled(
-                11,
-                const FoodEntity(
-                    id: 1,
-                    imageUrl: '',
-                    name: 'Название',
-                    price: 123,
-                    weight: 124,
-                    sharpness: 3,
-                    number: 0))));
+    return List.generate(
+      11,
+      (index) => FoodCategoryEntity(
+          id: index,
+          name: 'Колонна',
+          food: List.generate(
+              11,
+              (index) => FoodEntity(
+                  id: index,
+                  imageUrl: '',
+                  name: 'Название',
+                  price: 123,
+                  weight: 124,
+                  sharpness: 3))),
+    );
   }
 
   @override
