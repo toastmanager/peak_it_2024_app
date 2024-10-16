@@ -9,8 +9,9 @@ sealed class CartState extends Equatable {
 
 final class CartUpdated extends CartState {
   final Map<int, CartItem> cart;
+  final int totalPrice;
 
-  const CartUpdated({required this.cart});
+  const CartUpdated({required this.cart, required this.totalPrice});
 }
 
 final class CartUpdating extends CartState {}

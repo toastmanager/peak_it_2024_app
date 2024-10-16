@@ -30,6 +30,8 @@ class _MainWrapperState extends State<MainWrapper> {
           return Scaffold(
             body: child,
             bottomNavigationBar: BottomNavigationBar(
+              elevation: 0,
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
               currentIndex: tabsRouter.activeIndex,
               showSelectedLabels: true,
               showUnselectedLabels: true,

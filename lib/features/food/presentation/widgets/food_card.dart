@@ -1,13 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:peak_it_2024_app/core/components/expanded_horizontal.dart';
-import 'package:peak_it_2024_app/core/utils/icon_paths.dart';
-import 'package:peak_it_2024_app/features/food/domain/blocs/cart/cart_bloc.dart';
 import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
 import 'package:peak_it_2024_app/features/food/domain/utils/food_utils.dart';
-import 'package:smooth_corner/smooth_corner.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_quantity_button.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/sharpness_scale.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 class FoodCard extends StatefulWidget {
@@ -63,22 +59,7 @@ class _FoodCardState extends State<FoodCard> {
                   height: 77,
                 ),
               ),
-              Row(
-                children: List.generate(
-                    sharpness,
-                    (index) => SvgPicture.asset(
-                          IconPaths.flame,
-                          height: 14,
-                          width: 14,
-                          colorFilter: ColorFilter.mode(
-                              sharpness == 1
-                                  ? const Color(0xFFFAC20C)
-                                  : sharpness == 2
-                                      ? Colors.orange
-                                      : Colors.red,
-                              BlendMode.srcIn),
-                        )),
-              ),
+              SharpnessScale(sharpness: sharpness),
               const SizedBox(height: 4),
               RichText(
                 text: TextSpan(
@@ -100,77 +81,7 @@ class _FoodCardState extends State<FoodCard> {
               ),
             ],
           ),
-          BlocBuilder<CartBloc, CartState>(
-            builder: (context, state) {
-              final bloc = context.read<CartBloc>();
-              return ExpandedHorizontally(
-                child: number == 0
-                    ? FilledButton(
-                        onPressed: () {
-                          bloc.add(CartAddFood(entity: entity));
-                          setState(() {
-                            number++;
-                          });
-                        },
-                        child: const Text('Выбрать'))
-                    : SmoothClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        smoothness: 0.6,
-                        child: Container(
-                          color: Theme.of(context).colorScheme.primary,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 6),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              InkWell(
-                                  onTap: () {
-                                    bloc.add(CartRemoveFood(entity: entity));
-                                    setState(() {
-                                      number--;
-                                    });
-                                  },
-                                  child: Text(
-                                    '-',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary),
-                                  )),
-                              Text('$number',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary)),
-                              InkWell(
-                                  onTap: () {
-                                    bloc.add(CartAddFood(entity: entity));
-                                    setState(() {
-                                      number++;
-                                    });
-                                  },
-                                  child: Text('+',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary))),
-                            ],
-                          ),
-                        ),
-                      ),
-              );
-            },
-          )
+          CartQuantityButton(entity: entity)
         ],
       ),
     );

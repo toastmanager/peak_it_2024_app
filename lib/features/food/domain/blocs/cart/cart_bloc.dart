@@ -9,23 +9,24 @@ part 'cart_state.dart';
 
 @injectable
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(const CartUpdated(cart: {})) {
+  CartBloc() : super(const CartUpdated(cart: {}, totalPrice: 0)) {
     on<CartAddFood>(_onAddFood);
     on<CartRemoveFood>(_onRemoveFood);
   }
 
   Map<int, CartItem> cart = {};
+  int totalPrice = 0;
 
   void _onAddFood(CartAddFood event, Emitter<CartState> emit) {
     emit(CartUpdating());
     addFoodToCart(event.entity);
-    emit(CartUpdated(cart: Map.from(cart)));
+    emit(CartUpdated(cart: Map.from(cart), totalPrice: totalPrice));
   }
 
   void _onRemoveFood(CartRemoveFood event, Emitter<CartState> emit) {
     emit(CartUpdating());
     removeFoodFromCart(event.entity);
-    emit(CartUpdated(cart: Map.from(cart)));
+    emit(CartUpdated(cart: Map.from(cart), totalPrice: totalPrice));
   }
 
   void addFoodToCart(FoodEntity entity) {
@@ -33,6 +34,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (cart[entity.id] != null) {
       prevValue = cart[entity.id]!.quantity;
     }
+    totalPrice += entity.price;
     cart[entity.id] = CartItem(entity: entity, quantity: prevValue + 1);
   }
 
@@ -41,6 +43,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (cart[entity.id] == null) {
       throw Exception();
     }
+    totalPrice -= entity.price;
     prevValue = cart[entity.id]!.quantity;
     if (prevValue == 1) {
       cart.remove(entity.id);
