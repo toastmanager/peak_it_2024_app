@@ -15,6 +15,7 @@ abstract class AuthDataSourceRemote {
   Future<TokenModel?> verifyCode(VerifyCodeModel model);
   Future<TokenModel?> refreshToken(TokenRefreshModel model);
   Future<TokenModel?> getToken();
+  Future<void> logout();
 }
 
 @Singleton(as: AuthDataSourceRemote)
@@ -78,6 +79,16 @@ class AuthDataSourceRemoteImpl implements AuthDataSourceRemote {
       await saveToken(res);
       logger.i('Successfully saved tokens');
       return res;
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+  
+  @override
+  Future<void> logout() async {
+    try {
+      await saveToken(const TokenModel(accessToken: "", refreshToken: "", tokenType: "bearer"));
     } catch (e) {
       logger.e(e);
       rethrow;

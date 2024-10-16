@@ -26,6 +26,7 @@ import 'features/auth/data/repositories/auth_repository_impl.dart' as _i111;
 import 'features/auth/domain/blocs/auth/auth_bloc.dart' as _i660;
 import 'features/auth/domain/repositories/auth_repository.dart' as _i1015;
 import 'features/auth/domain/usecases/get_token.dart' as _i689;
+import 'features/auth/domain/usecases/logout.dart' as _i80;
 import 'features/auth/domain/usecases/refresh_token.dart' as _i694;
 import 'features/auth/domain/usecases/request_code.dart' as _i476;
 import 'features/auth/domain/usecases/verify_code.dart' as _i701;
@@ -66,6 +67,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.singleton<_i689.GetToken>(
         () => _i689.GetToken(repository: gh<_i1015.AuthRepository>()));
+    gh.singleton<_i80.Logout>(
+        () => _i80.Logout(repository: gh<_i1015.AuthRepository>()));
     gh.singleton<_i694.RefreshToken>(
         () => _i694.RefreshToken(repository: gh<_i1015.AuthRepository>()));
     gh.singleton<_i476.RequestCode>(
@@ -77,7 +80,14 @@ extension GetItInjectableX on _i174.GetIt {
           verifyCode: gh<_i701.VerifyCode>(),
           refreshToken: gh<_i694.RefreshToken>(),
           getToken: gh<_i689.GetToken>(),
+          logout: gh<_i80.Logout>(),
         ));
+    gh.singleton<_i401.NetworkErrorInterceptor>(
+        () => _i401.NetworkErrorInterceptor(
+              authBloc: gh<_i660.AuthBloc>(),
+              repository: gh<_i1015.AuthRepository>(),
+              logger: gh<_i974.Logger>(),
+            ));
     return this;
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:peak_it_2024_app/core/routes/router.dart';
+import 'package:peak_it_2024_app/features/auth/domain/blocs/auth/auth_bloc.dart';
 import 'package:peak_it_2024_app/injection.dart';
 
 void main() async {
@@ -27,14 +29,21 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Ужин с пандой',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.red, primary: const Color(0xFFFF4B3A)),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<AuthBloc>(),
+        )
+      ],
+      child: MaterialApp.router(
+        title: 'Ужин с пандой',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.red, primary: const Color(0xFFFF4B3A)),
+          useMaterial3: true,
+        ),
+        routerConfig: _appRouter.config(),
       ),
-      routerConfig: _appRouter.config(),
     );
   }
 }

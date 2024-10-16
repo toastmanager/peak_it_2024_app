@@ -45,4 +45,9 @@ class AuthRepositoryImpl implements AuthRepository {
         .refreshToken(TokenRefreshModel.fromEntity(entity));
     return tokenModel?.toEntity();
   }
+  
+  @override
+  Future<void> logout() async {
+    await authDataSourceRemote.logout();
+  }
 }

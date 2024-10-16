@@ -8,4 +8,5 @@ abstract class AuthRepository {
   Future<TokenEntity?> verifyCode(VerifyCodeEntity entity);
   Future<TokenEntity?> refreshToken(TokenRefreshEntity entity);
   Future<TokenEntity?> getToken();
+  Future<void> logout();
 }

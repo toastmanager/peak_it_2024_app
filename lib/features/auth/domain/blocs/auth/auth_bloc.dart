@@ -6,6 +6,7 @@ import 'package:peak_it_2024_app/features/auth/domain/entities/request_code_enti
 import 'package:peak_it_2024_app/features/auth/domain/entities/token_refresh_entity.dart';
 import 'package:peak_it_2024_app/features/auth/domain/entities/verify_code_entity.dart';
 import 'package:peak_it_2024_app/features/auth/domain/usecases/get_token.dart';
+import 'package:peak_it_2024_app/features/auth/domain/usecases/logout.dart';
 import 'package:peak_it_2024_app/features/auth/domain/usecases/refresh_token.dart';
 import 'package:peak_it_2024_app/features/auth/domain/usecases/request_code.dart';
 import 'package:peak_it_2024_app/features/auth/domain/usecases/verify_code.dart';
@@ -19,6 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final VerifyCode verifyCode;
   final RefreshToken refreshToken;
   final GetToken getToken;
+  final Logout logout;
 
   TokenEntity blocToken =
       const TokenEntity(accessToken: "", refreshToken: "", tokenType: "bearer");
@@ -27,12 +29,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       {required this.requestCode,
       required this.verifyCode,
       required this.refreshToken,
-      required this.getToken})
+      required this.getToken,
+      required this.logout})
       : super(AuthInitial()) {
     on<AuthRequestCode>(_onRequestCode);
     on<AuthVerifyCode>(_onVerifyCode);
     on<AuthRefreshToken>(_onRefreshToken);
     on<AuthGetToken>(_onGetToken);
+    on<AuthLogout>(_onLogout);
   }
 
   Future<void> _onRequestCode(
@@ -86,7 +90,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       final token = await getToken.execute();
-      if (token != null) {
+      if (token != null &&
+          token.accessToken != '' &&
+          token.refreshToken != '') {
         emit(AuthAuthorized(token: token));
         blocToken = token;
       } else {
@@ -96,5 +102,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthUnauthorized());
       rethrow;
     }
+  }
+
+  Future<void> _onLogout(AuthLogout event, Emitter<AuthState> emit) async {
+    await logout.execute();
+    blocToken = const TokenEntity(accessToken: '', refreshToken: '', tokenType: 'beare');
+    emit(AuthUnauthorized());
   }
 }

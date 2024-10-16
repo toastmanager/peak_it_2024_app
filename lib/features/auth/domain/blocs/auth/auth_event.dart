@@ -22,3 +22,5 @@ class AuthVerifyCode extends AuthEvent {
 class AuthRefreshToken extends AuthEvent {}
 
 class AuthGetToken extends AuthEvent {}
+
+class AuthLogout extends AuthEvent {}
