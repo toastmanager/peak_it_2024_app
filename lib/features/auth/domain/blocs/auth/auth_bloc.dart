@@ -41,10 +41,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onRequestCode(
       AuthRequestCode event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
     try {
       await requestCode.execute(event.entity);
-      emit(AuthCodeRequested());
     } catch (e) {
       emit(AuthCodeInvalid());
       rethrow;

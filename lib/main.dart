@@ -32,14 +32,14 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<AuthBloc>(),
+          create: (context) => sl<AuthBloc>()..add(AuthGetToken()),
         )
       ],
       child: MaterialApp.router(
         title: 'Ужин с пандой',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.red, primary: const Color(0xFFFF4B3A)),
+              seedColor: Colors.blue, primary: const Color(0xFFFF4B3A)),
           useMaterial3: true,
         ),
         routerConfig: _appRouter.config(),
