@@ -12,10 +12,10 @@ import 'package:smooth_corner/smooth_corner.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
 
+  configureDependencies();
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-  configureDependencies();
 
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Ужин с пандой',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(

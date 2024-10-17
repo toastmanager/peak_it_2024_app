@@ -57,8 +57,7 @@ class _CartQuantityButtonState extends State<CartQuantityButton> {
                     smoothness: 0.6,
                     child: Container(
                       color: Theme.of(context).colorScheme.primary,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 6),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,15 +69,20 @@ class _CartQuantityButtonState extends State<CartQuantityButton> {
                                   quantity--;
                                 });
                               },
-                              child: Text(
-                                '-',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary),
+                              child: SizedBox(
+                                width: 40,
+                                child: Center(
+                                  child: Text(
+                                    '-',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                  ),
+                                ),
                               )),
                           Text('$quantity',
                               style: Theme.of(context)
@@ -95,14 +99,19 @@ class _CartQuantityButtonState extends State<CartQuantityButton> {
                                   quantity++;
                                 });
                               },
-                              child: Text('+',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary))),
+                              child: SizedBox(
+                                width: 40,
+                                child: Center(
+                                  child: Text('+',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary)),
+                                ),
+                              )),
                         ],
                       ),
                     ),

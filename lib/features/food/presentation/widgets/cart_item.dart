@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
 import 'package:peak_it_2024_app/features/food/domain/utils/food_utils.dart';
@@ -27,12 +26,13 @@ class CartItem extends StatelessWidget {
                 SizedBox(
                   width: 110,
                   child: Center(
-                    child: CachedNetworkImage(
-                      imageUrl: entity.imageUrl,
-                      fit: BoxFit.cover,
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.egg_alt),
-                    ),
+                    child: Image.asset(entity.imageUrl),
+                    // child: CachedNetworkImage(
+                    //   imageUrl: entity.imageUrl,
+                    //   fit: BoxFit.cover,
+                    //   errorWidget: (context, url, error) =>
+                    //       const Icon(Icons.egg_alt),
+                    // ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -66,13 +66,13 @@ class CartItem extends StatelessWidget {
               ],
             ),
           ),
-          Flexible(
-            fit: FlexFit.loose,
+          SizedBox(
+            width: 90,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                SizedBox(width: 66, child: CartQuantityButton(entity: entity)),
+                SizedBox(child: CartQuantityButton(entity: entity)),
                 const SizedBox(height: 10),
                 RichText(
                   text: TextSpan(

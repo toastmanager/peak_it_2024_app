@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
 import 'package:peak_it_2024_app/features/food/domain/utils/food_utils.dart';
@@ -51,13 +50,14 @@ class _FoodCardState extends State<FoodCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  placeholder: (context, url) => const Icon(Icons.egg_alt),
-                  errorWidget: (context, url, error) =>
-                      const Icon(Icons.egg_alt),
-                  height: 77,
-                ),
+                child: Image.asset(imageUrl, height: 77,),
+                // child: CachedNetworkImage(
+                //   imageUrl: imageUrl,
+                //   placeholder: (context, url) => const Icon(Icons.egg_alt),
+                //   errorWidget: (context, url, error) =>
+                //       const Icon(Icons.egg_alt_outlined),
+                //   height: 77,
+                // ),
               ),
               SharpnessScale(sharpness: sharpness),
               const SizedBox(height: 4),

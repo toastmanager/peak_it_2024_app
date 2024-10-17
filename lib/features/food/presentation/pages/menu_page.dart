@@ -19,7 +19,7 @@ class MenuPage extends StatelessWidget {
       child: SingleChildScrollView(
         child: BlocBuilder<FoodBloc, FoodState>(
           builder: (context, state) {
-            if (state is FoodLoading) {
+            if (state is FoodLoading || state is FoodLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -39,13 +39,13 @@ class MenuPage extends StatelessWidget {
                     height: 70,
                     child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => const CategoryCard(
-                              imageUrl: '',
-                              text: 'Лапша',
+                        itemBuilder: (context, index) => CategoryCard(
+                              imageUrl: state.categories[index].imageUrl,
+                              text: state.categories[index].name,
                             ),
                         separatorBuilder: (context, index) =>
                             const SizedBox(width: 8),
-                        itemCount: 11),
+                        itemCount: state.categories.length),
                   ),
                   const SizedBox(height: 20),
                   ...state.categories
@@ -54,6 +54,9 @@ class MenuPage extends StatelessWidget {
               );
             }
 
+            if (state is FoodLoading) {
+              return const Center(child: CircularProgressIndicator(),);
+            }
             return const Center(child: Text("Unexpected error"));
           },
         ),
