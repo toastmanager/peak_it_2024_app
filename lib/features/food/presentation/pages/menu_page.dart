@@ -24,14 +24,18 @@ class MenuPage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               }
-      
+
               if (state is FoodFailed) {
                 return Center(
                   child: Text(state.message),
                 );
               }
-      
+
               if (state is FoodLoaded) {
+                final List<GlobalKey> globalKeys = [];
+                for (var _ in state.categories) {
+                  globalKeys.add(GlobalKey());
+                }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -39,21 +43,29 @@ class MenuPage extends StatelessWidget {
                       height: 70,
                       child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => CategoryCard(
-                                imageUrl: state.categories[index].imageUrl,
-                                text: state.categories[index].name,
+                          itemBuilder: (context, index) => InkWell(
+                                onTap: () => {
+                                  Scrollable.ensureVisible(
+                                      globalKeys[index].currentContext!)
+                                },
+                                child: CategoryCard(
+                                  imageUrl: state.categories[index].imageUrl,
+                                  text: state.categories[index].name,
+                                ),
                               ),
                           separatorBuilder: (context, index) =>
                               const SizedBox(width: 8),
                           itemCount: state.categories.length),
                     ),
                     const SizedBox(height: 20),
-                    ...state.categories
-                        .map((e) => FoodRow(text: e.name, items: e.food)),
+                    ...state.categories.asMap().entries.map((e) => FoodRow(
+                        key: globalKeys[e.key],
+                        text: e.value.name,
+                        items: e.value.food)),
                   ],
                 );
               }
-      
+
               return const Center(child: Text("Unexpected error"));
             },
           )),
