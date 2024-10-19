@@ -62,20 +62,25 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i974.Logger>(() => loggerModule.logger);
     gh.lazySingleton<_i475.AuthRestClient>(
         () => authRestClientModule.authRestClient);
-    gh.singleton<_i509.FoodRepository>(() => _i967.FoodRepositoryImpl());
+    gh.factory<_i509.FoodRepository>(() => _i967.FoodRepositoryImpl());
     gh.singleton<_i526.AuthDataSourceRemote>(
         () => _i526.AuthDataSourceRemoteImpl(
               client: gh<_i475.AuthRestClient>(),
               logger: gh<_i974.Logger>(),
               prefs: gh<_i460.SharedPreferences>(),
             ));
-    gh.singleton<_i997.GetCategories>(
+    gh.factory<_i997.GetCategories>(
         () => _i997.GetCategories(repository: gh<_i509.FoodRepository>()));
-    gh.singleton<_i44.OrderFood>(
+    gh.factory<_i44.OrderFood>(
         () => _i44.OrderFood(repository: gh<_i509.FoodRepository>()));
     gh.singleton<_i1015.AuthRepository>(() => _i111.AuthRepositoryImpl(
           logger: gh<_i974.Logger>(),
           authDataSourceRemote: gh<_i526.AuthDataSourceRemote>(),
+        ));
+    gh.factory<_i323.FoodBloc>(() => _i323.FoodBloc(
+          gh<_i997.GetCategories>(),
+          gh<_i44.OrderFood>(),
+          gh<_i974.Logger>(),
         ));
     gh.singleton<_i689.GetToken>(
         () => _i689.GetToken(repository: gh<_i1015.AuthRepository>()));
@@ -100,7 +105,6 @@ extension GetItInjectableX on _i174.GetIt {
               repository: gh<_i1015.AuthRepository>(),
               logger: gh<_i974.Logger>(),
             ));
-    gh.factory<_i323.FoodBloc>(() => _i323.FoodBloc());
     return this;
   }
 }

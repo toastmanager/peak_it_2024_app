@@ -12,20 +12,20 @@ import 'package:smooth_corner/smooth_corner.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
 
-  configureDependencies();
+  await configureDependencies();
 
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(
+    BlocProvider<AuthBloc>(
       create: (context) => sl<AuthBloc>()..add(AuthGetToken()),
     ),
-    BlocProvider(
-      create: (context) => sl<FoodBloc>()..add(FoodGetCategories()),
-    ),
-    BlocProvider(
+    BlocProvider<CartBloc>(
       create: (context) => sl<CartBloc>(),
+    ),
+    BlocProvider<FoodBloc>(
+      create: (context) => sl<FoodBloc>()..add(FoodGetCategories()),
     ),
   ], child: const MyApp()));
 }

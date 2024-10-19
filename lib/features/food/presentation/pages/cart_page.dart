@@ -12,8 +12,6 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: SingleChildScrollView(
@@ -38,6 +36,7 @@ class CartPage extends StatelessWidget {
                             final id = keys[index];
                             final entity = cart[id]!.entity;
                             return CartItem(
+                              key: Key('${entity.id}'),
                                 entity: entity, quantity: cart[id]!.quantity);
                           },
                           separatorBuilder: (context, index) => const Divider(),

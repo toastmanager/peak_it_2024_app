@@ -4,9 +4,8 @@ import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
 import 'package:peak_it_2024_app/features/food/domain/entites/food_order_entity.dart';
 import 'package:peak_it_2024_app/features/food/domain/repositories/food_repository.dart';
 
-@Singleton(as: FoodRepository)
+@Injectable(as: FoodRepository)
 class FoodRepositoryImpl implements FoodRepository {
-  FoodRepositoryImpl();
 
   @override
   Future<List<FoodCategoryEntity>> getCategories() async {

@@ -66,13 +66,12 @@ class CartItem extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            width: 90,
+          Flexible(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                SizedBox(child: CartQuantityButton(entity: entity)),
+                CartQuantityButton(entity: entity),
                 const SizedBox(height: 10),
                 RichText(
                   text: TextSpan(

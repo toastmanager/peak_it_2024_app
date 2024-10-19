@@ -11,56 +11,52 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 20,
-      ),
-      child: SingleChildScrollView(
-        child: BlocBuilder<FoodBloc, FoodState>(
-          builder: (context, state) {
-            if (state is FoodLoading || state is FoodLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (state is FoodFailed) {
-              return Center(
-                child: Text(state.message),
-              );
-            }
-
-            if (state is FoodLoaded) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 70,
-                    child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => CategoryCard(
-                              imageUrl: state.categories[index].imageUrl,
-                              text: state.categories[index].name,
-                            ),
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(width: 8),
-                        itemCount: state.categories.length),
-                  ),
-                  const SizedBox(height: 20),
-                  ...state.categories
-                      .map((e) => FoodRow(text: e.name, items: e.food)),
-                ],
-              );
-            }
-
-            if (state is FoodLoading) {
-              return const Center(child: CircularProgressIndicator(),);
-            }
-            return const Center(child: Text("Unexpected error"));
-          },
-        ),
-      ),
+    return SingleChildScrollView(
+      child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 20,
+          ),
+          child: BlocBuilder<FoodBloc, FoodState>(
+            builder: (context, state) {
+              if (state is FoodLoading || state is FoodInitial) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+      
+              if (state is FoodFailed) {
+                return Center(
+                  child: Text(state.message),
+                );
+              }
+      
+              if (state is FoodLoaded) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 70,
+                      child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => CategoryCard(
+                                imageUrl: state.categories[index].imageUrl,
+                                text: state.categories[index].name,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: 8),
+                          itemCount: state.categories.length),
+                    ),
+                    const SizedBox(height: 20),
+                    ...state.categories
+                        .map((e) => FoodRow(text: e.name, items: e.food)),
+                  ],
+                );
+              }
+      
+              return const Center(child: Text("Unexpected error"));
+            },
+          )),
     );
   }
 }

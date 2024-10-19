@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:peak_it_2024_app/core/components/expanded_horizontal.dart';
 import 'package:peak_it_2024_app/features/food/domain/blocs/cart/cart_bloc.dart';
 import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
 import 'package:smooth_corner/smooth_corner.dart';
@@ -42,81 +41,79 @@ class _CartQuantityButtonState extends State<CartQuantityButton> {
           final bloc = context.read<CartBloc>();
           final cartEntity = state.cart[entity.id];
           int quantity = cartEntity != null ? cartEntity.quantity : 0;
-          return ExpandedHorizontally(
-            child: quantity == 0
-                ? FilledButton(
-                    onPressed: () {
-                      bloc.add(CartAddFood(entity: entity));
-                      setState(() {
-                        quantity++;
-                      });
-                    },
-                    child: const Text('Выбрать'))
-                : SmoothClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    smoothness: 0.6,
-                    child: Container(
-                      color: Theme.of(context).colorScheme.primary,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                              onTap: () {
-                                bloc.add(CartRemoveFood(entity: entity));
-                                setState(() {
-                                  quantity--;
-                                });
-                              },
-                              child: SizedBox(
-                                width: 40,
-                                child: Center(
-                                  child: Text(
-                                    '-',
+          return quantity == 0
+              ? FilledButton(
+                  onPressed: () {
+                    bloc.add(CartAddFood(entity: entity));
+                    setState(() {
+                      quantity++;
+                    });
+                  },
+                  child: const Text('Выбрать'))
+              : SmoothClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  smoothness: 0.6,
+                  child: Container(
+                    color: Theme.of(context).colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              bloc.add(CartRemoveFood(entity: entity));
+                              setState(() {
+                                quantity--;
+                              });
+                            },
+                            child: SizedBox(
+                              width: 40,
+                              child: Center(
+                                child: Text(
+                                  '-',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary),
+                                ),
+                              ),
+                            )),
+                        Text('$quantity',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary)),
+                        InkWell(
+                            onTap: () {
+                              bloc.add(CartAddFood(entity: entity));
+                              setState(() {
+                                quantity++;
+                              });
+                            },
+                            child: SizedBox(
+                              width: 40,
+                              child: Center(
+                                child: Text('+',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onPrimary),
-                                  ),
-                                ),
-                              )),
-                          Text('$quantity',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary)),
-                          InkWell(
-                              onTap: () {
-                                bloc.add(CartAddFood(entity: entity));
-                                setState(() {
-                                  quantity++;
-                                });
-                              },
-                              child: SizedBox(
-                                width: 40,
-                                child: Center(
-                                  child: Text('+',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary)),
-                                ),
-                              )),
-                        ],
-                      ),
+                                                .onPrimary)),
+                              ),
+                            )),
+                      ],
                     ),
                   ),
-          );
+                );
         }
         return const Text('Error');
       },
