@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:peak_it_2024_app/core/components/expanded_horizontal.dart';
 import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
 import 'package:peak_it_2024_app/features/food/domain/utils/food_utils.dart';
 import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_quantity_button.dart';
@@ -22,7 +22,6 @@ class _FoodCardState extends State<FoodCard> {
   late final int price;
   late final int weight;
   late final int sharpness;
-  int number = 0;
 
   @override
   void initState() {
@@ -46,18 +45,23 @@ class _FoodCardState extends State<FoodCard> {
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl,
-                  placeholder: (context, url) => const Icon(Icons.egg_alt),
-                  errorWidget: (context, url, error) =>
-                      const Icon(Icons.egg_alt),
+                child: Image.asset(
+                  imageUrl,
                   height: 77,
                 ),
+                // child: CachedNetworkImage(
+                //   imageUrl: imageUrl,
+                //   placeholder: (context, url) => const Icon(Icons.egg_alt),
+                //   errorWidget: (context, url, error) =>
+                //       const Icon(Icons.egg_alt_outlined),
+                //   height: 77,
+                // ),
               ),
               SharpnessScale(sharpness: sharpness),
               const SizedBox(height: 4),
@@ -81,7 +85,7 @@ class _FoodCardState extends State<FoodCard> {
               ),
             ],
           ),
-          CartQuantityButton(entity: entity)
+          ExpandedHorizontally(child: CartQuantityButton(entity: entity))
         ],
       ),
     );

@@ -15,10 +15,7 @@ class FoodBloc extends Bloc<FoodEvent, FoodState> {
   final OrderFood orderFood;
   final Logger logger;
 
-  FoodBloc(
-      {required this.getCategories,
-      required this.orderFood,
-      required this.logger})
+  FoodBloc(this.getCategories, this.orderFood, this.logger)
       : super(FoodInitial()) {
     on<FoodGetCategories>(_onGetCategories);
   }

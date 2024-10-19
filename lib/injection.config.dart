@@ -48,48 +48,48 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    final loggerModule = _$LoggerModule();
-    final networkModule = _$NetworkModule();
     final injectionModule = _$InjectionModule();
+    final networkModule = _$NetworkModule();
+    final loggerModule = _$LoggerModule();
     final authRestClientModule = _$AuthRestClientModule();
     gh.factory<_i622.CartBloc>(() => _i622.CartBloc());
     gh.singleton<_i66.AppRouter>(() => _i66.AppRouter());
-    gh.lazySingleton<_i974.Logger>(() => loggerModule.logger);
-    gh.lazySingleton<_i361.Dio>(() => networkModule.dio);
     await gh.lazySingletonAsync<_i460.SharedPreferences>(
       () => injectionModule.prefs,
       preResolve: true,
     );
+    gh.lazySingleton<_i361.Dio>(() => networkModule.dio);
+    gh.lazySingleton<_i974.Logger>(() => loggerModule.logger);
     gh.lazySingleton<_i475.AuthRestClient>(
         () => authRestClientModule.authRestClient);
-    gh.singleton<_i509.FoodRepository>(() => _i967.FoodRepositoryImpl());
+    gh.factory<_i509.FoodRepository>(() => _i967.FoodRepositoryImpl());
     gh.singleton<_i526.AuthDataSourceRemote>(
         () => _i526.AuthDataSourceRemoteImpl(
               client: gh<_i475.AuthRestClient>(),
               logger: gh<_i974.Logger>(),
               prefs: gh<_i460.SharedPreferences>(),
             ));
-    gh.singleton<_i997.GetCategories>(
+    gh.factory<_i997.GetCategories>(
         () => _i997.GetCategories(repository: gh<_i509.FoodRepository>()));
-    gh.singleton<_i44.OrderFood>(
+    gh.factory<_i44.OrderFood>(
         () => _i44.OrderFood(repository: gh<_i509.FoodRepository>()));
-    gh.factory<_i323.FoodBloc>(() => _i323.FoodBloc(
-          getCategories: gh<_i997.GetCategories>(),
-          orderFood: gh<_i44.OrderFood>(),
-          logger: gh<_i974.Logger>(),
-        ));
     gh.singleton<_i1015.AuthRepository>(() => _i111.AuthRepositoryImpl(
           logger: gh<_i974.Logger>(),
           authDataSourceRemote: gh<_i526.AuthDataSourceRemote>(),
+        ));
+    gh.factory<_i323.FoodBloc>(() => _i323.FoodBloc(
+          gh<_i997.GetCategories>(),
+          gh<_i44.OrderFood>(),
+          gh<_i974.Logger>(),
         ));
     gh.singleton<_i689.GetToken>(
         () => _i689.GetToken(repository: gh<_i1015.AuthRepository>()));
     gh.singleton<_i80.Logout>(
         () => _i80.Logout(repository: gh<_i1015.AuthRepository>()));
-    gh.singleton<_i694.RefreshToken>(
-        () => _i694.RefreshToken(repository: gh<_i1015.AuthRepository>()));
     gh.singleton<_i476.RequestCode>(
         () => _i476.RequestCode(repository: gh<_i1015.AuthRepository>()));
+    gh.singleton<_i694.RefreshToken>(
+        () => _i694.RefreshToken(repository: gh<_i1015.AuthRepository>()));
     gh.singleton<_i701.VerifyCode>(
         () => _i701.VerifyCode(repository: gh<_i1015.AuthRepository>()));
     gh.factory<_i660.AuthBloc>(() => _i660.AuthBloc(
@@ -109,10 +109,10 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$LoggerModule extends _i1019.LoggerModule {}
+class _$InjectionModule extends _i1007.InjectionModule {}
 
 class _$NetworkModule extends _i401.NetworkModule {}
 
-class _$InjectionModule extends _i1007.InjectionModule {}
+class _$LoggerModule extends _i1019.LoggerModule {}
 
 class _$AuthRestClientModule extends _i533.AuthRestClientModule {}

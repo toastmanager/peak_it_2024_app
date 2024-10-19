@@ -12,20 +12,20 @@ import 'package:smooth_corner/smooth_corner.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
 
+  await configureDependencies();
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  configureDependencies();
-
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(
+    BlocProvider<AuthBloc>(
       create: (context) => sl<AuthBloc>()..add(AuthGetToken()),
     ),
-    BlocProvider(
-      create: (context) => sl<FoodBloc>()..add(FoodGetCategories()),
-    ),
-    BlocProvider(
+    BlocProvider<CartBloc>(
       create: (context) => sl<CartBloc>(),
+    ),
+    BlocProvider<FoodBloc>(
+      create: (context) => sl<FoodBloc>()..add(FoodGetCategories()),
     ),
   ], child: const MyApp()));
 }
@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Ужин с пандой',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -51,6 +52,13 @@ class _MyAppState extends State<MyApp> {
             primary: const Color(0xFFFF4B3A),
             onSurfaceVariant: const Color(0xFF8D8D8F)),
         fontFamily: 'SFProRounded',
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none
+          )
+        ),
         filledButtonTheme: FilledButtonThemeData(
             style: ButtonStyle(
                 padding: const WidgetStatePropertyAll(

@@ -9,15 +9,15 @@ sealed class FoodState extends Equatable {
 
 final class FoodInitial extends FoodState {}
 
-class FoodLoading extends FoodState {}
+final class FoodLoading extends FoodState {}
 
-class FoodLoaded extends FoodState {
+final class FoodLoaded extends FoodState {
   final List<FoodCategoryEntity> categories;
 
   const FoodLoaded({required this.categories});
 }
 
-class FoodFailed extends FoodState {
+final class FoodFailed extends FoodState {
   final String message;
 
   const FoodFailed({required this.message});

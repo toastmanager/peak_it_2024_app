@@ -27,6 +27,7 @@ dependencies:
   retrofit: ^4.4.1
   shared_preferences: ^2.3.2
   smooth_corner: ^1.1.0
+  url_launcher: ^6.3.1
   widgetbook_annotation: ^3.2.0
 
 dev_dependencies:
@@ -48,6 +49,7 @@ flutter:
   assets:
     - .env
     - assets/icons/
+    - assets/images/
 
   fonts:
     - family: SFProRounded

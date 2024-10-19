@@ -35,37 +35,33 @@ class _ProfilePageState extends State<ProfilePage> {
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             final bloc = context.read<AuthBloc>();
-            if (state is AuthUnauthorized || state is AuthCodeRequested) {
-              return DefaultTabController(
-                  length: 2,
-                  child: TabBarView(
-                    children: [
-                      PhoneScreen(
-                        phoneController: phoneController,
-                      ),
-                      CodeVerifyScreen(
-                          codeController: codeController,
-                          phoneController: phoneController),
-                    ],
-                  ));
-            }
             if (state is AuthLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (state is AuthCodeInvalid) {
-              return const Center(
-                child: Text('Invalid Code'),
+            if (state is AuthAuthorized) {
+              return Center(
+                child: FilledButton(
+                    onPressed: () {
+                      bloc.add(AuthLogout());
+                    },
+                    child: const Text('Выйти')),
               );
             }
-            return Center(
-              child: FilledButton(
-                  onPressed: () {
-                    bloc.add(AuthLogout());
-                  },
-                  child: const Text('Выйти')),
-            );
+            return DefaultTabController(
+                length: 2,
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    PhoneScreen(
+                      phoneController: phoneController,
+                    ),
+                    CodeVerifyScreen(
+                        codeController: codeController,
+                        phoneController: phoneController),
+                  ],
+                ));
           },
         ));
   }

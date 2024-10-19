@@ -18,14 +18,17 @@ class CategoryCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Column(
         children: [
-          CachedNetworkImage(
-            alignment: Alignment.center,
-            imageUrl: imageUrl,
-            placeholder: (context, url) => const Icon(Icons.food_bank_rounded),
-            errorWidget: (context, url, error) =>
-                const Icon(Icons.food_bank_rounded),
-            height: 39,
-          ),
+          imageUrl.startsWith('assets/')
+              ? Image.asset(imageUrl, height: 39)
+              : CachedNetworkImage(
+                  alignment: Alignment.center,
+                  imageUrl: imageUrl,
+                  placeholder: (context, url) =>
+                      const Icon(Icons.food_bank_rounded),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.food_bank_rounded),
+                  height: 39,
+                ),
           Text(text)
         ],
       ),
