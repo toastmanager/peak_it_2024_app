@@ -16,37 +16,53 @@ class CartPage extends StatelessWidget {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         if (state is CartUpdated && state.cart.isEmpty) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Spacer(),
-                SvgPicture.asset('assets/images/waving_panda.svg'),
-                const SizedBox(height: 20),
-                Text(
-                  'Ваша корзина пуста',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(fontWeight: FontWeight.w500),
+          return Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Spacer(),
+                      SvgPicture.asset('assets/images/waving_panda.svg'),
+                      const SizedBox(height: 20),
+                      Text(
+                        'Ваша корзина пуста',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        'скорее переходите в меню и заказывайте\nвкусные блюда!',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
+                      ),
+                      const Spacer(),
+                      ExpandedHorizontally(
+                          child: FilledButton(
+                              onPressed: () =>
+                                  AutoTabsRouter.of(context).setActiveIndex(0),
+                              child: const Text('Меню')))
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  'скорее переходите в меню и заказывайте\nвкусные блюда!',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant),
-                ),
-                const Spacer(),
-                ExpandedHorizontally(
-                    child: FilledButton(
-                        onPressed: () => AutoTabsRouter.of(context).setActiveIndex(0),
-                        child: const Text('Меню')))
-              ],
-            ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: Theme.of(context).dividerColor,
+                            width: 0.5))),
+              )
+            ],
           );
         }
         return Column(
@@ -109,7 +125,7 @@ class CartPage extends StatelessWidget {
                   return const Text('Unexpected Error');
                 },
               ),
-            )
+            ),
           ],
         );
       },
