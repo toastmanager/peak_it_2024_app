@@ -52,6 +52,13 @@ class _MyAppState extends State<MyApp> {
             primary: const Color(0xFFFF4B3A),
             onSurfaceVariant: const Color(0xFF8D8D8F)),
         fontFamily: 'SFProRounded',
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none
+          )
+        ),
         filledButtonTheme: FilledButtonThemeData(
             style: ButtonStyle(
                 padding: const WidgetStatePropertyAll(

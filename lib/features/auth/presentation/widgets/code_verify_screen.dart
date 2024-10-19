@@ -20,44 +20,70 @@ class CodeVerifyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<AuthBloc>();
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          IconButton(
-              onPressed: () => DefaultTabController.of(context).animateTo(0),
-              icon: const Icon(Icons.arrow_back))
-        ],
-      ),
-      Text(
-        "Введите код из отправленного сообщения на номер ${phoneController.text}",
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium
-            ?.copyWith(fontWeight: FontWeight.bold),
-      ),
-      Pinput(
-          defaultPinTheme: PinTheme(
-              width: 40,
-              height: 45,
-              decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(8))),
-          length: 6,
-          onCompleted: (pin) {
-            bloc.add(AuthVerifyCode(
-                entity: VerifyCodeEntity(
-                    phone: AuthUtils.unformatPhone(phoneController.text),
-                    code: pin)));
-          }),
-      ExpandedHorizontally(
-          child: FilledButton(
-              onPressed: () {
-                bloc.add(AuthRequestCode(
-                    entity: RequestCodeEntity(
-                        phone: AuthUtils.unformatPhone(phoneController.text))));
-              },
-              child: const Text('Запросить код повторно')))
-    ]);
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                      onPressed: () =>
+                          DefaultTabController.of(context).animateTo(0),
+                      icon: const Icon(Icons.arrow_back))
+                ],
+              ),
+              Text(
+                "Введите код из отправленного сообщения на номер ${phoneController.text}",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              Pinput(
+                  autofocus: true,
+                  defaultPinTheme: PinTheme(
+                      width: 40,
+                      height: 45,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(8))),
+                  length: 6,
+                  onCompleted: (pin) {
+                    bloc.add(AuthVerifyCode(
+                        entity: VerifyCodeEntity(
+                            phone:
+                                AuthUtils.unformatPhone(phoneController.text),
+                            code: pin)));
+                  }),
+              if (state is AuthCodeInvalid)
+                Text(
+                  'Неверный код верификации',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.error),
+                ),
+              if (state is AuthCodeExpired)
+                Text('Истёк срок кода верификации',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Theme.of(context).colorScheme.error)),
+              ExpandedHorizontally(
+                  child: FilledButton(
+                      onPressed: () {
+                        bloc.add(AuthRequestCode(
+                            entity: RequestCodeEntity(
+                                phone: AuthUtils.unformatPhone(
+                                    phoneController.text))));
+                      },
+                      child: const Text('Запросить код повторно')))
+            ]);
+      },
+    );
   }
 }
