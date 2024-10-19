@@ -46,7 +46,8 @@ class MenuPage extends StatelessWidget {
                           itemBuilder: (context, index) => InkWell(
                                 onTap: () => {
                                   Scrollable.ensureVisible(
-                                      globalKeys[index].currentContext!)
+                                      globalKeys[index].currentContext!,
+                                      duration: Durations.medium1)
                                 },
                                 child: CategoryCard(
                                   imageUrl: state.categories[index].imageUrl,
