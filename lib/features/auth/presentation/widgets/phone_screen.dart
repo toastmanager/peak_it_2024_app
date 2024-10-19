@@ -23,7 +23,9 @@ class PhoneScreen extends StatelessWidget {
         return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Spacer(),
+              const SizedBox(
+                height: 80,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 36),
                 child: Text(
