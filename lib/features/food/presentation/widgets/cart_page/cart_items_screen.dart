@@ -6,8 +6,10 @@ import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/ca
 
 class CartItemsScreen extends StatelessWidget {
   const CartItemsScreen({
-    super.key,
+    super.key, this.onPressed,
   });
+
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ class CartItemsScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is CartUpdated) {
                 return FilledButton(
-                    onPressed: () {},
+                    onPressed: onPressed,
                     child: Text(
                         'Далее • ${state.totalPrice} ${FoodUtils.getCurrency()}'));
               }

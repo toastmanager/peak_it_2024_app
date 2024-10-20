@@ -16,34 +16,63 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   int tabIndex = 0;
-  
+
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final ColorScheme colors = Theme.of(context).colorScheme;
-
 
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         if (state is CartUpdated && state.cart.isEmpty) {
           return const EmptyCartScreen();
         }
-        final steps = [
-          const CartItemsScreen(),
-          const Placeholder(),
-          const Placeholder(),
-        ];
-        return Column(
-          children: [
-            OrderProgressIndicator(textTheme: textTheme, tabIndex: tabIndex, colors: colors),
-            DefaultTabController(
-                length: 3,
-                child: Expanded(
-                  child: TabBarView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: steps),
-                )),
-          ],
+        return DefaultTabController(
+          length: 3,
+          child: Builder(
+            builder: (context) {
+              return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (tabIndex > 0)
+                        IconButton(
+                            onPressed: () {
+                              DefaultTabController.of(context)
+                                .animateTo(tabIndex - 1);
+                              setState(() => tabIndex -= 1);
+                            },
+                            icon: const Icon(Icons.arrow_back)),
+                      const Spacer(),
+                      OrderProgressIndicator(
+                          textTheme: textTheme, tabIndex: tabIndex, colors: colors),
+                      const Spacer(),
+                      if (tabIndex > 0)
+                        IconButton(
+                            onPressed: () {},
+                            color: Colors.transparent,
+                            icon: const Icon(Icons.arrow_back)),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          CartItemsScreen(
+                            onPressed: () {
+                              DefaultTabController.of(context).animateTo(1);
+                              setState(() => tabIndex = 1);
+                            },
+                          ),
+                          const Placeholder(),
+                          const Placeholder(),
+                        ]),
+                  ),
+                ],
+              );
+            }
+          ),
         );
       },
     );
