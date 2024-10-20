@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
-import 'package:peak_it_2024_app/features/food/presentation/widgets/food_card.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/menu_page/food_card.dart';
 
 class FoodRow extends StatelessWidget {
   const FoodRow({

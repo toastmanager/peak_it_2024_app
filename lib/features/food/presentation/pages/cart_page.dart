@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:peak_it_2024_app/core/components/expanded_horizontal.dart';
 import 'package:peak_it_2024_app/features/food/domain/blocs/cart/cart_bloc.dart';
 import 'package:peak_it_2024_app/features/food/domain/utils/food_utils.dart';
-import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_item.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/cart_item.dart';
 
 @RoutePage()
 class CartPage extends StatelessWidget {

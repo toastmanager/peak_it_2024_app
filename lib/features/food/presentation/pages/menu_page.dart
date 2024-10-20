@@ -2,8 +2,8 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:peak_it_2024_app/features/food/domain/blocs/food/food_bloc.dart';
-import 'package:peak_it_2024_app/features/food/presentation/widgets/category_card.dart';
-import 'package:peak_it_2024_app/features/food/presentation/widgets/food_row.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/menu_page/category_card.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/menu_page/food_row.dart';
 
 @RoutePage()
 class MenuPage extends StatelessWidget {

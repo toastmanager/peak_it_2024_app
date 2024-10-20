@@ -9,9 +9,9 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:peak_it_2024_app/features/food/presentation/widgets/category_card.dart'
+import 'package:peak_it_2024_app/features/food/presentation/widgets/menu_page/category_card.dart'
     as _i2;
-import 'package:peak_it_2024_app/features/food/presentation/widgets/food_card.dart'
+import 'package:peak_it_2024_app/features/food/presentation/widgets/menu_page/food_card.dart'
     as _i3;
 import 'package:widgetbook/widgetbook.dart' as _i1;
 
@@ -28,36 +28,41 @@ final directories = <_i1.WidgetbookNode>[
               _i1.WidgetbookFolder(
                 name: 'widgets',
                 children: [
-                  _i1.WidgetbookComponent(
-                    name: 'CategoryCard',
-                    useCases: [
-                      _i1.WidgetbookUseCase(
-                        name: 'Long without image',
-                        builder: _i2.longCategoryWithoutImage,
+                  _i1.WidgetbookFolder(
+                    name: 'menu_page',
+                    children: [
+                      _i1.WidgetbookComponent(
+                        name: 'CategoryCard',
+                        useCases: [
+                          _i1.WidgetbookUseCase(
+                            name: 'Long without image',
+                            builder: _i2.longCategoryWithoutImage,
+                          ),
+                          _i1.WidgetbookUseCase(
+                            name: 'Short without image',
+                            builder: _i2.shortCategoryWithoutImage,
+                          ),
+                        ],
                       ),
-                      _i1.WidgetbookUseCase(
-                        name: 'Short without image',
-                        builder: _i2.shortCategoryWithoutImage,
+                      _i1.WidgetbookComponent(
+                        name: 'FoodCard',
+                        useCases: [
+                          _i1.WidgetbookUseCase(
+                            name: 'Light Hot',
+                            builder: _i3.lightHotFoodCard,
+                          ),
+                          _i1.WidgetbookUseCase(
+                            name: 'Middle Hot',
+                            builder: _i3.middleHotFoodCard,
+                          ),
+                          _i1.WidgetbookUseCase(
+                            name: 'Very Hot',
+                            builder: _i3.veryHotFoodCard,
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                  _i1.WidgetbookComponent(
-                    name: 'FoodCard',
-                    useCases: [
-                      _i1.WidgetbookUseCase(
-                        name: 'Light Hot',
-                        builder: _i3.lightHotFoodCard,
-                      ),
-                      _i1.WidgetbookUseCase(
-                        name: 'Middle Hot',
-                        builder: _i3.middleHotFoodCard,
-                      ),
-                      _i1.WidgetbookUseCase(
-                        name: 'Very Hot',
-                        builder: _i3.veryHotFoodCard,
-                      ),
-                    ],
-                  ),
+                  )
                 ],
               )
             ],
