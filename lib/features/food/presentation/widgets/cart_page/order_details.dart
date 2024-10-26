@@ -3,10 +3,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:peak_it_2024_app/features/food/domain/blocs/cart/cart_bloc.dart';
 import 'package:peak_it_2024_app/features/food/domain/utils/food_utils.dart';
 
-class OrderDetailsScreen extends StatelessWidget {
+enum DeliveryType { delivery, pickup }
+
+class OrderDetailsScreen extends StatefulWidget {
   const OrderDetailsScreen({super.key, this.onPressed});
 
   final void Function()? onPressed;
+
+  @override
+  State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
+}
+
+class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+  late DeliveryType deliveryType = DeliveryType.delivery;
+
+  ButtonStyle buttonStyleByDeliveryType(
+      {required DeliveryType type, required ColorScheme colors}) {
+    return ButtonStyle(
+      backgroundColor: WidgetStatePropertyAll(
+          deliveryType == type ? colors.primary : colors.surfaceContainer),
+      foregroundColor: WidgetStatePropertyAll(
+          deliveryType == type ? colors.onPrimary : colors.onSurface),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +45,29 @@ class OrderDetailsScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FilledButton(onPressed: () {}, child: const Text('Доставка')),
+                  FilledButton(
+                    onPressed: () =>
+                        setState(() => deliveryType = DeliveryType.delivery),
+                    style: buttonStyleByDeliveryType(
+                        type: DeliveryType.delivery, colors: colors),
+                    child: const Text('Доставка'),
+                  ),
                   const SizedBox(width: 8),
                   FilledButton(
-                      onPressed: () {}, child: const Text('Самовывоз')),
+                      onPressed: () =>
+                          setState(() => deliveryType = DeliveryType.pickup),
+                      style: buttonStyleByDeliveryType(
+                          type: DeliveryType.pickup, colors: colors),
+                      child: const Text('Самовывоз')),
                 ],
               ),
               const SizedBox(
                 height: 32,
               ),
               Text(
-                'Адрес доставки',
+                deliveryType == DeliveryType.delivery
+                    ? 'Адрес доставки'
+                    : 'Заказ будет ждать здесь',
                 style:
                     textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
@@ -53,15 +84,21 @@ class OrderDetailsScreen extends StatelessWidget {
                               backgroundColor: WidgetStatePropertyAll(
                                   colors.surfaceContainer)),
                           onPressed: () {},
-                          child: const Text('Сменить адрес'))),
+                          child: Text(
+                            deliveryType == DeliveryType.delivery
+                                ? 'Сменить адрес'
+                                : 'Сменить ресторан',
+                          ))),
                   const SizedBox(
                     width: 8,
                   ),
                   Expanded(
                       child: FilledButton(
                           onPressed: () {},
-                          child: const Text(
-                            'Определить',
+                          child: Text(
+                            deliveryType == DeliveryType.delivery
+                                ? 'Определить'
+                                : 'Выбрать ближайшее',
                           )))
                 ],
               ),
@@ -73,9 +110,16 @@ class OrderDetailsScreen extends StatelessWidget {
                     style: textTheme.titleLarge?.copyWith(
                         color: colors.onSurface, fontWeight: FontWeight.bold),
                     children: [
-                      const TextSpan(text: 'Время прибытия '),
                       TextSpan(
-                          text: 'ближайшее',
+                        text: deliveryType == DeliveryType.delivery
+                            ? 'Время прибытия'
+                            : 'Начнём готовить',
+                      ),
+                      const TextSpan(text: ' '),
+                      TextSpan(
+                          text: deliveryType == DeliveryType.delivery
+                              ? 'ближайшее'
+                              : 'сейчас',
                           style: textTheme.titleLarge?.copyWith(
                               color: colors.primary,
                               fontWeight: FontWeight.bold)),
@@ -103,7 +147,7 @@ class OrderDetailsScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is CartUpdated) {
                 return FilledButton(
-                    onPressed: onPressed,
+                    onPressed: widget.onPressed,
                     child: Text(
                         'Далее • ${state.totalPrice} ${FoodUtils.getCurrency()}'));
               }

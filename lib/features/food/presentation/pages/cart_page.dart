@@ -75,7 +75,12 @@ class _CartPageState extends State<CartPage> {
                               setState(() => tabIndex = 1);
                             },
                           ),
-                          const OrderDetailsScreen(),
+                          OrderDetailsScreen(
+                            onPressed: () {
+                              tabController.animateTo(2);
+                              setState(() => tabIndex = 2);
+                            },
+                          ),
                           const Placeholder(),
                         ]),
                   ),
