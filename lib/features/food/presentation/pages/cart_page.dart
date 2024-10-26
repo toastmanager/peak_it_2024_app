@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:peak_it_2024_app/features/food/domain/blocs/cart/cart_bloc.dart';
 import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/cart_items_screen.dart';
 import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/empty_cart_screen.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/order_details.dart';
 import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/order_progress_indicator.dart';
 
 @RoutePage()
@@ -22,16 +23,24 @@ class _CartPageState extends State<CartPage> {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final ColorScheme colors = Theme.of(context).colorScheme;
 
-    return BlocBuilder<CartBloc, CartState>(
-      builder: (context, state) {
-        if (state is CartUpdated && state.cart.isEmpty) {
-          return const EmptyCartScreen();
-        }
-        return DefaultTabController(
-          length: 3,
-          child: Builder(
-            builder: (context) {
-              return Column(
+    return DefaultTabController(
+      length: 3,
+      child: Builder(builder: (context) {
+        final tabController = DefaultTabController.of(context);
+        return BlocConsumer<CartBloc, CartState>(
+          listener: (context, state) {
+            if (state is CartUpdating) {
+              tabController.animateTo(0);
+              setState(() => tabIndex = 0);
+            }
+          },
+          builder: (context, state) {
+            if (state is CartUpdated && state.cart.isEmpty) {
+              return const EmptyCartScreen();
+            }
+            return Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,14 +48,15 @@ class _CartPageState extends State<CartPage> {
                       if (tabIndex > 0)
                         IconButton(
                             onPressed: () {
-                              DefaultTabController.of(context)
-                                .animateTo(tabIndex - 1);
+                              tabController.animateTo(tabIndex - 1);
                               setState(() => tabIndex -= 1);
                             },
                             icon: const Icon(Icons.arrow_back)),
                       const Spacer(),
                       OrderProgressIndicator(
-                          textTheme: textTheme, tabIndex: tabIndex, colors: colors),
+                          textTheme: textTheme,
+                          tabIndex: tabIndex,
+                          colors: colors),
                       const Spacer(),
                       if (tabIndex > 0)
                         IconButton(
@@ -61,20 +71,20 @@ class _CartPageState extends State<CartPage> {
                         children: [
                           CartItemsScreen(
                             onPressed: () {
-                              DefaultTabController.of(context).animateTo(1);
+                              tabController.animateTo(1);
                               setState(() => tabIndex = 1);
                             },
                           ),
-                          const Placeholder(),
+                          const OrderDetailsScreen(),
                           const Placeholder(),
                         ]),
                   ),
                 ],
-              );
-            }
-          ),
+              ),
+            );
+          },
         );
-      },
+      }),
     );
   }
 }
