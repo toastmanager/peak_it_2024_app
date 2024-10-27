@@ -6,6 +6,7 @@ import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/ca
 import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/empty_cart_screen.dart';
 import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/order_details.dart';
 import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/order_progress_indicator.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/cart_page/payment_method_screen.dart';
 
 @RoutePage()
 class CartPage extends StatefulWidget {
@@ -81,7 +82,7 @@ class _CartPageState extends State<CartPage> {
                               setState(() => tabIndex = 2);
                             },
                           ),
-                          const Placeholder(),
+                          const PaymentMethodScreen(),
                         ]),
                   ),
                 ],
