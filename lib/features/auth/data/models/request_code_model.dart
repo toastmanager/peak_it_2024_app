@@ -6,7 +6,6 @@ part 'request_code_model.g.dart';
 
 @JsonSerializable()
 class RequestCodeModel extends Equatable {
-  @JsonKey(name: "phone_number")
   final String phone;
 
   const RequestCodeModel({required this.phone});

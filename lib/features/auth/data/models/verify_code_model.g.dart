@@ -8,12 +8,12 @@ part of 'verify_code_model.dart';
 
 VerifyCodeModel _$VerifyCodeModelFromJson(Map<String, dynamic> json) =>
     VerifyCodeModel(
-      phone: json['phone_number'] as String,
+      phone: json['phone'] as String,
       code: json['code'] as String,
     );
 
 Map<String, dynamic> _$VerifyCodeModelToJson(VerifyCodeModel instance) =>
     <String, dynamic>{
-      'phone_number': instance.phone,
+      'phone': instance.phone,
       'code': instance.code,
     };

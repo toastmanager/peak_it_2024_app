@@ -8,10 +8,10 @@ part of 'request_code_model.dart';
 
 RequestCodeModel _$RequestCodeModelFromJson(Map<String, dynamic> json) =>
     RequestCodeModel(
-      phone: json['phone_number'] as String,
+      phone: json['phone'] as String,
     );
 
 Map<String, dynamic> _$RequestCodeModelToJson(RequestCodeModel instance) =>
     <String, dynamic>{
-      'phone_number': instance.phone,
+      'phone': instance.phone,
     };

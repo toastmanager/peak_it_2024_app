@@ -6,7 +6,6 @@ part 'verify_code_model.g.dart';
 
 @JsonSerializable()
 class VerifyCodeModel extends Equatable {
-  @JsonKey(name: 'phone_number')
   final String phone;
   final String code;
 
