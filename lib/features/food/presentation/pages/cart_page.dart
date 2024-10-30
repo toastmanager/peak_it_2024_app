@@ -60,10 +60,11 @@ class _CartPageState extends State<CartPage> {
                           colors: colors),
                       const Spacer(),
                       if (tabIndex > 0)
-                        IconButton(
-                            onPressed: () {},
+                        const IconButton(
+                            onPressed: null,
+                            disabledColor: Colors.transparent,
                             color: Colors.transparent,
-                            icon: const Icon(Icons.arrow_back)),
+                            icon: Icon(Icons.arrow_back)),
                     ],
                   ),
                   Expanded(
