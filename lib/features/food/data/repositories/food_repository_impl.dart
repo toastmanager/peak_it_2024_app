@@ -9,7 +9,7 @@ class FoodRepositoryImpl implements FoodRepository {
 
   @override
   Future<List<FoodCategoryEntity>> getCategories() async {
-    // TODO: implement getCategories
+    await Future.delayed(const Duration(seconds: 1));
     return _mockCategories();
   }
 

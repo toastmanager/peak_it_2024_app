@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:peak_it_2024_app/features/food/domain/blocs/food/food_bloc.dart';
-import 'package:peak_it_2024_app/features/food/presentation/widgets/menu_page/category_card.dart';
-import 'package:peak_it_2024_app/features/food/presentation/widgets/menu_page/food_row.dart';
+import 'package:peak_it_2024_app/features/food/domain/entites/food_category_entity.dart';
+import 'package:peak_it_2024_app/features/food/domain/entites/food_entity.dart';
+import 'package:peak_it_2024_app/features/food/presentation/widgets/menu_page/menu_screen.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 @RoutePage()
 class MenuPage extends StatelessWidget {
@@ -11,65 +15,54 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 20,
-          ),
-          child: BlocBuilder<FoodBloc, FoodState>(
-            builder: (context, state) {
-              if (state is FoodLoading || state is FoodInitial) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              if (state is FoodFailed) {
-                return Center(
-                  child: Text(state.message),
-                );
-              }
-
-              if (state is FoodLoaded) {
-                final List<GlobalKey> globalKeys = [];
-                for (var _ in state.categories) {
-                  globalKeys.add(GlobalKey());
+    final random = Random();
+    return BlocBuilder<FoodBloc, FoodState>(builder: (context, state) {
+      return SingleChildScrollView(
+        child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 20,
+            ),
+            child: BlocBuilder<FoodBloc, FoodState>(
+              builder: (context, state) {
+                if (state is FoodLoading || state is FoodInitial) {
+                  return Skeletonizer(
+                    enabled: true,
+                    child: MenuScreen(
+                        categories: List.generate(
+                      8,
+                      (index) => FoodCategoryEntity(
+                          id: index,
+                          imageUrl: "",
+                          name: "asdfasd",
+                          food: List.generate(
+                            12,
+                            (index) => FoodEntity(
+                                id: index,
+                                imageUrl: "asdfasdf",
+                                name: "asfdsdf",
+                                price: 512,
+                                weight: 512,
+                                sharpness: random.nextInt(3)),
+                          )),
+                    )),
+                  );
                 }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 70,
-                      child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => InkWell(
-                                onTap: () => {
-                                  Scrollable.ensureVisible(
-                                      globalKeys[index].currentContext!,
-                                      duration: Durations.medium1)
-                                },
-                                child: CategoryCard(
-                                  imageUrl: state.categories[index].imageUrl,
-                                  text: state.categories[index].name,
-                                ),
-                              ),
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(width: 8),
-                          itemCount: state.categories.length),
-                    ),
-                    const SizedBox(height: 20),
-                    ...state.categories.asMap().entries.map((e) => FoodRow(
-                        key: globalKeys[e.key],
-                        text: e.value.name,
-                        items: e.value.food)),
-                  ],
-                );
-              }
 
-              return const Center(child: Text("Unexpected error"));
-            },
-          )),
-    );
+                if (state is FoodFailed) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                }
+
+                if (state is FoodLoaded) {
+                  return MenuScreen(categories: state.categories);
+                }
+
+                return const Center(child: Text("Unexpected error"));
+              },
+            )),
+      );
+    });
   }
 }
